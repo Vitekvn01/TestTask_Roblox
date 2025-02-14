@@ -1,10 +1,11 @@
+using UnityEngine;
 public class IdleState : ICharacterState
 {
-    private readonly ICharacterContext _character;
+    private readonly ICharacterContext _playerController;
 
     public IdleState(ICharacterContext character)
     {
-        _character = character;
+        _playerController = character;
     }
 
     public void UpdateState(IInputController inputController)
@@ -14,8 +15,9 @@ public class IdleState : ICharacterState
 
         if (horizontal != 0 || vertical != 0)
         {
-            _character.ChangeState(StateType.Running);
+            _playerController.Move(new Vector3(0,0,0));
+            _playerController.ChangeState(StateType.Running);
         }
-        _character.Animator.SetBool("isRunning", false);
+        _playerController.Animator.SetBool("isRunning", false);
     }
 }

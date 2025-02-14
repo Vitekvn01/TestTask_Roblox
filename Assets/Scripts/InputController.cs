@@ -1,4 +1,3 @@
-using UnityEditor.DeviceSimulation;
 using UnityEngine;
 
 public class InputController : MonoBehaviour, IInputController

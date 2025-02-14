@@ -1,5 +1,4 @@
 using Cinemachine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -8,7 +7,7 @@ public class PlayerController : MonoBehaviour, ICharacterContext
 {
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private CinemachineFreeLook _cinemachineCam;
-    [SerializeField] private CharacterController _characterController;
+    [SerializeField] private CharacterController _characterView;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _jumpForce = 2f;
@@ -20,7 +19,7 @@ public class PlayerController : MonoBehaviour, ICharacterContext
     private ICharacterState _currentState;
     private Dictionary<StateType, ICharacterState> states;
 
-    public CharacterController CharacterController => _characterController;
+    public CharacterController CharacterController => _characterView;
     public Animator Animator => _animator;
     public float Speed => _speed;
     public float Gravity => _gravity;
@@ -55,7 +54,7 @@ public class PlayerController : MonoBehaviour, ICharacterContext
 
     private void ApplyGravity()
     {
-        if (!_characterController.isGrounded)
+        if (!_characterView.isGrounded)
         {
             velocity.y += _gravity * Time.deltaTime;
         }
@@ -67,7 +66,7 @@ public class PlayerController : MonoBehaviour, ICharacterContext
 
     private void ApplyMovement()
     {
-        _characterController.Move(velocity * Time.deltaTime);
+        _characterView.Move(velocity * Time.deltaTime);
     }
 
     public void Move(Vector3 direction)
@@ -78,7 +77,7 @@ public class PlayerController : MonoBehaviour, ICharacterContext
 
     public void Jump()
     {
-        if (_characterController.isGrounded)
+        if (_characterView.isGrounded)
         {
             velocity.y = _jumpForce;
             ChangeState(StateType.Jumping);

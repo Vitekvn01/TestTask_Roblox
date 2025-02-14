@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class RunningState : ICharacterState
 {
-    private readonly ICharacterContext _character;
+    private readonly ICharacterContext _playerController;
 
     public RunningState(ICharacterContext character)
     {
-        _character = character;
+        _playerController = character;
     }
 
     public void UpdateState(IInputController inputController)
@@ -15,26 +14,26 @@ public class RunningState : ICharacterState
         float horizontal = inputController.GetAxisHorizontal();
         float vertical = inputController.GetAxisVertical();
 
-        Vector3 direction = (_character.CameraTransform.forward * vertical + _character.CameraTransform.right * horizontal).normalized;
+        Vector3 direction = (_playerController.CameraTransform.forward * vertical + _playerController.CameraTransform.right * horizontal).normalized;
         direction.y = 0f;
 
         if (direction.magnitude >= 0.1f)
         {
-            _character.Move(direction * _character.Speed * Time.deltaTime);
-            _character.CharacterController.transform.rotation = Quaternion.LookRotation(direction);
+            _playerController.Move(direction * _playerController.Speed * Time.deltaTime);
+            _playerController.CharacterController.transform.rotation = Quaternion.LookRotation(direction);
         }
         else
         {
-            _character.ChangeState(StateType.Idle);
+            _playerController.ChangeState(StateType.Idle);
         }
 
-        _character.Animator.SetBool("isRunning", true);
+        _playerController.Animator.SetBool("isRunning", true);
 
-        if (inputController.GetButtonJump() && _character.CharacterController.isGrounded)
+        if (inputController.GetButtonJump() && _playerController.CharacterController.isGrounded)
         {
-            _character.Animator.SetTrigger("JumpUp");
-            _character.Jump();
-            _character.ChangeState(StateType.Jumping);
+            _playerController.Animator.SetTrigger("JumpUp");
+            _playerController.Jump();
+            _playerController.ChangeState(StateType.Jumping);
         }
     }
 }
