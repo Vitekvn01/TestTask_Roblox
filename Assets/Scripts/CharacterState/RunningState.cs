@@ -19,21 +19,25 @@ public class RunningState : ICharacterState
 
         if (direction.magnitude >= 0.1f)
         {
-            _playerController.Move(direction * _playerController.Speed * Time.deltaTime);
-            _playerController.CharacterController.transform.rotation = Quaternion.LookRotation(direction);
+            _playerController.Animator.SetBool("isRunning", true);
+            _playerController.Move(direction);
+            _playerController.CharacterView.transform.rotation = Quaternion.LookRotation(direction);
         }
         else
         {
             _playerController.ChangeState(StateType.Idle);
         }
 
-        _playerController.Animator.SetBool("isRunning", true);
+        Debug.Log("Is Grounded: " + _playerController.CharacterView.isGrounded);
 
-        if (inputController.GetButtonJump() && _playerController.CharacterController.isGrounded)
+
+        if (inputController.GetButtonJump() && _playerController.CharacterView.isGrounded)
         {
             _playerController.Animator.SetTrigger("JumpUp");
             _playerController.Jump();
             _playerController.ChangeState(StateType.Jumping);
         }
+
+        Debug.Log("IsRunning");
     }
 }

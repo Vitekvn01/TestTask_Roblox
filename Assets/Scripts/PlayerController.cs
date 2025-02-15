@@ -19,11 +19,12 @@ public class PlayerController : MonoBehaviour, ICharacterContext
     private ICharacterState _currentState;
     private Dictionary<StateType, ICharacterState> states;
 
-    public CharacterController CharacterController => _characterView;
+    public CharacterController CharacterView => _characterView;
     public Animator Animator => _animator;
     public float Speed => _speed;
     public float Gravity => _gravity;
     public Transform CameraTransform => _cameraTransform;
+    public float JumpForce => _jumpForce;
 
     [Inject]
     private void Construct(IInputController inputController)
@@ -43,8 +44,8 @@ public class PlayerController : MonoBehaviour, ICharacterContext
     private void Update()
     {
         _currentState.UpdateState(_inputController);
+
         ApplyGravity();
-        ApplyMovement();
     }
 
     public void ChangeState(StateType newState)
@@ -62,17 +63,13 @@ public class PlayerController : MonoBehaviour, ICharacterContext
         {
             velocity.y = -2f;
         }
-    }
 
-    private void ApplyMovement()
-    {
         _characterView.Move(velocity * Time.deltaTime);
     }
 
     public void Move(Vector3 direction)
     {
-        velocity.x = direction.x * _speed;
-        velocity.z = direction.z * _speed;
+        _characterView.Move(direction * Time.deltaTime);
     }
 
     public void Jump()
@@ -85,4 +82,9 @@ public class PlayerController : MonoBehaviour, ICharacterContext
     }
 }
 
-public enum StateType { Idle, Running, Jumping }
+public enum StateType 
+{
+    Idle,
+    Running,
+    Jumping
+}

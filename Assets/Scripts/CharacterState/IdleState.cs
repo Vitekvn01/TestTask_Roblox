@@ -15,9 +15,10 @@ public class IdleState : ICharacterState
 
         if (horizontal != 0 || vertical != 0)
         {
-            _playerController.Move(new Vector3(0,0,0));
             _playerController.ChangeState(StateType.Running);
         }
         _playerController.Animator.SetBool("isRunning", false);
+
+        Debug.Log("IsIdle");
     }
 }

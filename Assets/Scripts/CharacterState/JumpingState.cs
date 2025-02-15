@@ -17,16 +17,21 @@ public class JumpingState : ICharacterState
         float vertical = inputController.GetAxisVertical();
 
         Vector3 direction = (_playerController.CameraTransform.forward * vertical + _playerController.CameraTransform.right * horizontal).normalized;
+        direction.y = 0f;
 
-        if (direction.magnitude >= 0.1f && _playerController.CharacterController.isGrounded != true)
+        if (direction.magnitude >= 0.1f && _playerController.CharacterView.isGrounded != true)
         {
-            _playerController.Move(direction * _playerController.Speed * Time.deltaTime);
-            _playerController.CharacterController.transform.rotation = Quaternion.LookRotation(direction);
+            _playerController.CharacterView.Move(direction * _playerController.Speed * Time.deltaTime);
+            _playerController.CharacterView.transform.rotation = Quaternion.LookRotation(direction);
         }
-        else
+        
+        if(_playerController.CharacterView.isGrounded)
         {
             _playerController.Animator.SetBool("JumpFall", false);
+            Debug.Log("IsJumping JumpFall false");
             _playerController.ChangeState(StateType.Idle);
         }
+
+        Debug.Log("IsJumping");
     }
 }
