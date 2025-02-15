@@ -20,7 +20,7 @@ public class RunningState : ICharacterState
         if (direction.magnitude >= 0.1f)
         {
             _playerController.Animator.SetBool("isRunning", true);
-            _playerController.Move(direction);
+            _playerController.CharacterView.Move(direction);
             _playerController.CharacterView.transform.rotation = Quaternion.LookRotation(direction);
         }
         else
@@ -28,13 +28,18 @@ public class RunningState : ICharacterState
             _playerController.ChangeState(StateType.Idle);
         }
 
-        Debug.Log("Is Grounded: " + _playerController.CharacterView.isGrounded);
+        Debug.Log("Is Grounded: " + _playerController.CharacterView.IsGrounded);
 
 
-        if (inputController.GetButtonJump() && _playerController.CharacterView.isGrounded)
+        if (inputController.GetButtonJump() && _playerController.CharacterView.IsGrounded)
         {
+            _playerController.CharacterView.Jump();
             _playerController.Animator.SetTrigger("JumpUp");
-            _playerController.Jump();
+            _playerController.ChangeState(StateType.Jumping);
+        }
+
+        if (_playerController.CharacterView.IsGrounded == false)
+        {
             _playerController.ChangeState(StateType.Jumping);
         }
 

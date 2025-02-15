@@ -19,6 +19,18 @@ public class IdleState : ICharacterState
         }
         _playerController.Animator.SetBool("isRunning", false);
 
+        if (inputController.GetButtonJump() && _playerController.CharacterView.IsGrounded)
+        {
+            _playerController.CharacterView.Jump();
+            _playerController.Animator.SetTrigger("JumpUp");
+
+        }
+
+        if (_playerController.CharacterView.IsGrounded == false)
+        {
+            _playerController.ChangeState(StateType.Jumping);
+        }
+
         Debug.Log("IsIdle");
     }
 }

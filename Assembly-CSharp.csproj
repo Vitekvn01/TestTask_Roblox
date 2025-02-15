@@ -65,10 +65,10 @@
     <Compile Include="Assets\Scripts\CharacterState\JumpingState.cs" />
     <Compile Include="Assets\Scripts\InputController.cs" />
     <Compile Include="Assets\Scripts\IIntefaces\ICharacterContext.cs" />
+    <Compile Include="Assets\Scripts\MovementControllerFSM.cs" />
     <Compile Include="Assets\Scripts\IIntefaces\ICharacterState.cs" />
     <Compile Include="Assets\Scripts\IIntefaces\IInputController.cs" />
     <Compile Include="Assets\Scripts\Installers\InputControllerInstaller.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\CharacterState\RunningState.cs" />
   </ItemGroup>
   <ItemGroup>
